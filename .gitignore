@@ -1,5 +1,6 @@
 
 /*.o
 /*.txt
+!geometry_input.txt
 /*.exe
 *geometry
