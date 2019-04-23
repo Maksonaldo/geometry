@@ -1,7 +1,7 @@
 
 /*.o
 /*.txt
-!geometry_input.txt
+!myfile.txt
 /*.exe
 *geometry
 /build
