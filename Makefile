@@ -1,31 +1,26 @@
-FV = bin/
-FRO = Ofile/
-WAYS = src/
+all: build bin bin/main
 
-all: bin build output $(FV)geometry
-
-$(FV)geometry: $(FRO)geometry.o $(FRO)recognition.o $(FRO)output.o
-	gcc -Wall -Werror $(FRO)geometry.o $(FRO)recognition.o $(FRO)output.o -lm -o $(FV)geometry
-
-$(FRO)output.o: $(WAYS)output.c
-	gcc -Wall -c $(WAYS)output.c -g -o $(FRO)output.o
-
-$(FRO)recognition.o: $(WAYS)recognition.c
-	gcc -Wall -c $(WAYS)recognition.c -g -lm -o $(FRO)recognition.o
-
-$(FRO)geometry.o: $(WAYS)geometry.c
-	gcc -Wall -c $(WAYS)geometry.c -g -o $(FRO)geometry.o
-	
 clean:
-	rm -f $(FRO)*.o
+
+	-rm -f bin/main build/*.o
+
+bin/main: build/main.o build/geometry.o
+
+	gcc -Wall -Werror build/main.o build/geometry.o -o bin/main -lm
+
+build/main.o: src/main.c
+
+	gcc -Wall -Werror -c src/main.c -o build/main.o
+
+build/geometry.o: src/geometry.c
+
+	gcc -Wall -Werror -c src/geometry.c -o build/geometry.o
 
 bin:
 	mkdir bin
-
 build:
-	mkdir Ofile
-
+	mkdir build
 output:
-	touch bin/geometry_output.txt
-
+	touch bin/myfile.txt
 .PHONY: clean
+

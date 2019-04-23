@@ -1,37 +1,62 @@
-#include "geometry_header.h"
+#include "geometry.h"
+#include <ctype.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#define TRIANGLE 1
+#define CIRCLE 2
 
-int main() {
-  int n = 50;
-  int p = 0;
-  int s = 0;
+int Parser(Figure *new, char *A) {
+  char B[256];
   int i = 0;
-  char *string = NULL;
-  char *string_c = NULL;
-  int *string_i = NULL;
-  string = (char *)calloc(n, sizeof(char));
-  string_i = (int *)calloc(n, sizeof(int));
-  string_c = (char *)calloc(n, sizeof(char));
-
-  FILE *geom;
-
-  geom = fopen("geometry_input.txt", "r");
-  while (feof(geom) == 0) {
-    int j = 0;
-    fgets(string_c, 50, geom);
-    // fgets(string_i, 50, geom);
-    ++i;
-    while (string_c[j] != '\n') {
-      string[j] = string_c[j];
-      ++j;
-    }
-    // recognition(string, &p, &s);
-    output_geometry(string, p, s, i);
+  while (A[i] >= 'a' && A[i] <= 'z') {
+    B[i] = A[i];
+    i++;
   }
-
-  fclose(geom);
-
-  // printf("%d\t%d", p, s);
+  B[i] = '\0';
+  if (!(strcmp(B, "triangle"))) {
+    new->type = TRIANGLE;
+  } else if (!(strcmp(B, "circle"))) {
+    new->type = CIRCLE;
+  } else {
+    printf("Unknown type\n");
+    return 1;
+  }
+  char *end;
+  end = A;
+  i = -1;
+  new->coordinates = (double *)malloc(sizeof(double) * 100);
+  if (new->coordinates == NULL) {
+    printf("Alloceted error");
+    return 1;
+  }
+  while (*A) {
+    new->coordinates[i] = strtod(A, &end);
+    A = end;
+    i++;
+    while (!(isdigit(*A) || *A == '-' || *A == '+') && *A) {
+      A++;
+    }
+  }
+  new->size = i;
   return 0;
+}
+
+void S_And_P_Circle(double *S, double *P, Figure *new) {
+  double r = new->coordinates[2];
+  *S = M_PI * (r * r);
+  *P = 2 * M_PI * r;
+}
+
+void S_And_P_Triangle(double *S, double *P, Figure *new) {
+  double a = sqrt(pow((new->coordinates[2] - new->coordinates[0]), 2.0) +
+                  pow((new->coordinates[3] - new->coordinates[1]), 2.0));
+  double b = sqrt(pow((new->coordinates[4] - new->coordinates[2]), 2.0) +
+                  pow((new->coordinates[5] - new->coordinates[3]), 2.0));
+  double c = sqrt(pow((new->coordinates[0] - new->coordinates[4]), 2.0) +
+                  pow((new->coordinates[1] - new->coordinates[5]), 2.0));
+  *P = a + b + c;
+  double p = (a + b + c) / 2;
+  *S = sqrt(p * (p - a) * (p - b) * (p - c));
 }
