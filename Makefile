@@ -1,29 +1,29 @@
-WAYB = bin/
-WAYBU = build/
+FV = bin/
+FRO = Ofile/
 WAYS = src/
 
-all: bin build output $(WAYB)geometry
+all: bin build output $(FV)geometry
 
-$(WAYB)geometry: $(WAYBU)geometry.o $(WAYBU)recognition.o $(WAYBU)output.o
-	gcc -Wall -Werror $(WAYBU)geometry.o $(WAYBU)recognition.o $(WAYBU)output.o -lm -o $(WAYB)geometry
+$(FV)geometry: $(FRO)geometry.o $(FRO)recognition.o $(FRO)output.o
+	gcc -Wall -Werror $(FRO)geometry.o $(FRO)recognition.o $(FRO)output.o -lm -o $(FV)geometry
 
-$(WAYBU)output.o: $(WAYS)output.c
-	gcc -Wall -c $(WAYS)output.c -g -o $(WAYBU)output.o
+$(FRO)output.o: $(WAYS)output.c
+	gcc -Wall -c $(WAYS)output.c -g -o $(FRO)output.o
 
-$(WAYBU)recognition.o: $(WAYS)recognition.c
-	gcc -Wall -c $(WAYS)recognition.c -g -lm -o $(WAYBU)recognition.o
+$(FRO)recognition.o: $(WAYS)recognition.c
+	gcc -Wall -c $(WAYS)recognition.c -g -lm -o $(FRO)recognition.o
 
-$(WAYBU)geometry.o: $(WAYS)geometry.c
-	gcc -Wall -c $(WAYS)geometry.c -g -o $(WAYBU)geometry.o
+$(FRO)geometry.o: $(WAYS)geometry.c
+	gcc -Wall -c $(WAYS)geometry.c -g -o $(FRO)geometry.o
 	
 clean:
-	rm -f $(WAYBU)*.o
+	rm -f $(FRO)*.o
 
 bin:
 	mkdir bin
 
 build:
-	mkdir build
+	mkdir Ofile
 
 output:
 	touch bin/geometry_output.txt

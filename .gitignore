@@ -4,3 +4,5 @@
 !geometry_input.txt
 /*.exe
 *geometry
+/Ofile
+/bin
