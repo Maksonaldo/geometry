@@ -8,6 +8,7 @@
 
 int main()
 {
+    freopen("11.txt","a",stdout);
     FILE* myfile;
     myfile = fopen("myfile.txt", "r");
     if (myfile == NULL) {
