@@ -9,7 +9,7 @@
 
 int Parser(Figure* new, char* A)
 {
-    char B[256];
+      char B[256];
     int i = 0;
     while (A[i] >= 'a' && A[i] <= 'z') {
         B[i] = A[i];
