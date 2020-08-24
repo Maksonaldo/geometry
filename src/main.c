@@ -1,63 +1,51 @@
-#include "geometry.h"
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#define TRIANGLE 1
-#define CIRCLE 2
+#include "palindrom.h"
 
-int main()
-{
-    FILE* myfile;
-    myfile = fopen("../myfile.txt", "r");
-    if (myfile == NULL) {
-        printf("No file\n");
-        return 1;
-    }
-    printf("You input:\n");
-    int capacity = 100;
-    int size = 0;
-    char arr[256];
-    int i = 0;
-    Figure* new = (Figure*)malloc(sizeof(Figure) * capacity);
-    if (new == NULL) {
-        printf("Alloceted error\n");
-        return 1;
-    }
-    while ((arr[i++] = fgetc(myfile)) != EOF) {
-        if (size < capacity) {
-            if (arr[i - 1] == '\n') {
-                arr[i - 1] = '\0';
-                Parser(&new[size], arr);
-                size++;
-                i = 0;
-            }
-        } else {
-            capacity *= 2;
-            new = (Figure*)realloc(new, capacity * sizeof(double));
-            if (new == NULL) {
-                printf("Alloceted error\n");
-                return 1;
-            }
-        }
-    }
-    int j;
-    for (i = 0; i < size; i++) {
-        double S, P;
-        if (new[i].type == CIRCLE) {
-            printf("Figure circle\n");
-            S_And_P_Circle(&S, &P, &new[i]);
-            printf("S = %.3f\nP = %.3f\n", S, P);
-        } else if (new[i].type == TRIANGLE) {
-            printf("Figure triangle\n");
-            S_And_P_Triangle(&S, &P, &new[i]);
-            printf("S = %.3f\nP = %.3f\n", S, P);
-        }
-        j = 0;
-        while (j < new[i].size) {
-            printf("coordinat %d: %.2f\n", j + 1, new[i].coordinates[j]);
-            j++;
-        }
-    }
-    return 0;
+int main(){
+	{
+  char *line = NULL;
+  line = (char *)malloc(1000000 * sizeof(char));
+
+  char *btr = NULL;
+  btr = (char *)malloc(1000000 * sizeof(char));
+
+  transformation_A_a();
+  freopen("text.txt", "a", stdout);
+
+  char *str = NULL;
+  str = (char *)malloc(20 * sizeof(char));
+  FILE *file;
+
+  if ((file = fopen("test.txt", "r")) == NULL) {
+    puts("File not found!");
+    return 1;
+  }
+
+  char *mass;
+
+  mass = calloc(sizeof(char), 1000);
+  fgets(str, 80, file);
+  int i, j;
+  for (i = 0, j = 0; str[i]; ++i) {
+    if ((str[i] >= ' ' && str[i] <= '/') || (str[i] >= ':' && str[i] <= '\\') ||
+        (str[i] >= ',' && str[i] <= '_') || str[i] == '\n')
+      continue;
+    mass[j] = str[i];
+    j++;
+  }
+
+  if (check(mass)) {
+    printf("\nPredlozenie:%s  Palandrom \n", mass);
+  } else {
+
+
+    deleting_punctuation_marks(btr);
+
+
+    
+    word_comparison(line);
+  }
+
+
+  return 0;
+}
 }
